@@ -1,0 +1,105 @@
+﻿@section scripts {
+    @Scripts.Render("~/bundles/app")
+}
+
+<div class="page-header">
+    <h1>Contacts Application Service</h1>
+</div>
+
+<div class="row">
+
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Contacts</h2>
+            </div>
+            <div class="panel-body">
+                <ul class="list-unstyled" data-bind="foreach: contacts">
+                    <li>
+                        <b><span data-bind="text: FirstName"></span> <span data-bind="text: LastName"></span></b>
+                        : <span data-bind="text: Status == true ? 'Active' : 'In Active'"></span>
+                        <small><a href="#" data-bind="click: $parent.getContactDetail">Details</a> | </small>
+                        <small><a href="#" data-bind="click: $parent.getContactDetailEdit">Edit</a> | </small>
+                        <small><a href="#" data-bind="click: $parent.deleteContact">Delete</a> | </small>
+                        <!-- ko if: Status == true -->
+                        <small><a href="#" data-bind="click: $parent.changeStatus">Make InActive</a></small>
+                        <!-- /ko -->
+                        <!-- ko if: Status == false  -->
+                        <small><a href="#" data-bind="click: $parent.changeStatus">Make Active</a></small>
+                        <!-- /ko -->
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="alert alert-danger" data-bind="visible: error"><p data-bind="text: error"></p></div>
+    </div>
+    <!-- ko if:detail() -->
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">Detail</h2>
+            </div>
+            <table class="table">
+                <tr><td>Name</td><td data-bind="text: detail().FirstName +' '+detail().LastName"></td></tr>
+                <tr><td>Phone</td><td data-bind="text: detail().Phone"></td></tr>
+                <tr><td>Email</td><td data-bind="text: detail().Email"></td></tr>
+                <tr><td>Status</td><td data-bind="text: detail().Status == true ? 'Active' : 'In Active'"></td></tr>
+            </table>
+        </div>
+    </div>
+    <!-- /ko -->
+
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title" id="h2title">Add Contact</h2>
+            </div>
+
+            <div class="panel-body">
+                <form class="form-horizontal">
+                    <div class="form-group" data-bind="with: newContact">
+                        <div class="col-sm-7" style="display:none;">
+                            <label for="Id">Id</label>
+                            <input type="text" id="Id" class="form-control" data-bind="value:Id" placeholder="Contact ID" />
+                        </div>
+                        <label for="inputFirstName" class="col-sm-4 control-label">First Name</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputFirstName" data-bind="value:FirstName" placeholder="First Name" />
+                        </div>
+                        <label for="inputLastName" class="col-sm-4 control-label">Last Name</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputLastName" data-bind="value:LastName" placeholder="Last Name" />
+                        </div>
+                        <label for="inputPhone" class="col-sm-4 control-label">Phone</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="inputPhone" data-bind="value:Phone" placeholder="Phone" />
+                        </div>
+                        <label for="inputEmail" class="col-sm-4 control-label">Email</label>
+                        <div class="col-sm-7">
+                            <input type="email" class="form-control" id="inputEmail" data-bind="value:Email" placeholder="Email" />
+                        </div>
+                        <label for="inputStatus" class="col-sm-4 control-label">Status</label>
+                        <div class="col-sm-7">
+                            <select id="inputStatus" class="form-control" data-bind="value:Status" name="inputStatus">
+                                <option value="true">Active</option>
+                                <option value="false">In Active</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-success" data-bind="click: addContact" id="Save">
+                        <span class="glyphicon  glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Save
+                    </button>
+                    <button type="button" class="btn btn-info" data-bind="click: clearFields" id="Clear">
+                        <span class="glyphicon  glyphicon glyphicon-refresh" aria-hidden="true"></span> Clear
+                    </button>
+                    <button type="button" class="btn btn-warning" data-bind="click:updateContact " style="display:none;" id="Update">
+                        <span class="glyphicon  glyphicon glyphicon-pencil" aria-hidden="true"></span> Update Contact
+                    </button>
+                    <button type="button" class="btn btn-default" data-bind="click:cancel " style="display:none;" id="Cancel">
+                        <span class="glyphicon  glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
